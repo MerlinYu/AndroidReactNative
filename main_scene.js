@@ -10,10 +10,13 @@ import {
   NativeModules,
   Animated,
   Image,
+  ToastAndroid,
+  ActivityIndicator,
   View
 } from 'react-native';
 import RnDemo from './react_native/demo/index';
 var Log = NativeModules.LogNative;
+import LoadView from './test';
 
 var TAG = "===main scene === ";
 export default class MainScene extends  Component {
@@ -72,7 +75,7 @@ export default class MainScene extends  Component {
         console.log("anim finished " + result.finished);
         // this._startTextAnim();
         this.state.currentAlpha = 1;
-        this._pressButtoon();
+      //  this._pressButtoon();
       });
    }
 
@@ -107,6 +110,7 @@ export default class MainScene extends  Component {
        ],
 
       }} />
+
       <TouchableOpacity
        style={styles.button}
        onPress={this._pressButtoon.bind(this)}>
@@ -139,9 +143,25 @@ export default class MainScene extends  Component {
     if(nav) {
       this.state.isOnScene = false;
       Log.v(TAG + " is onscene " + this.state.isOnScene);
+
+      // nav.push(
+      //   {
+      //     component:RnDemo,
+      //     params:{
+      //       title:'React World',
+      //       callback:function(data) {
+      //         ToastAndroid.show('back data' + JSON.stringify(data),
+      //         ToastAndroid.LONG);
+      //       }
+      //     }
+      //   });
+
       nav.push(
         {
-          component:RnDemo
+          component:LoadView,
+          params:{
+            title:'React World',
+          }
         });
     }
   }
@@ -166,4 +186,12 @@ const styles = StyleSheet.create({
   button: {
     marginTop:20,
   },
+  centering: {
+   alignItems: 'center',
+   justifyContent: 'center',
+   padding: 8,
+ },
+ gray: {
+   backgroundColor: '#cccccc',
+ },
 });

@@ -22,7 +22,6 @@ import {
   BackAndroid,
   View
 } from 'react-native';
-import HomePageComponent from './HomePageComponent';
 import PageListView from './PageListView';
 import PageAnim from './PageAnim';
 import PageTab from './CommonComponents/components/PageTab';
@@ -39,7 +38,7 @@ var TAG = "===demo index===";
 
 export default class ComponentView extends Component {
   static propTypes = {
-    back_index:React.PropTypes.string.isRequired,
+    title:React.PropTypes.string.isRequired,
     navigator:React.PropTypes.object.isRequired,
   }
 
@@ -87,6 +86,11 @@ export default class ComponentView extends Component {
     }
     _pressBack() {
       const navigator = this.props.navigator;
+      // 回调函数，传递数据
+      if (this.props.callback) {
+        this.props.callback("back to up navigator");
+      }
+
       if (navigator) {
         navigator.pop();
       }
@@ -95,7 +99,7 @@ export default class ComponentView extends Component {
   render() {
     return(
       <View>
-      <TitleBar back={true} title={"React Native World"} onBack={this._pressBack.bind(this)}>
+      <TitleBar back={true} title={this.props.title} onBack={this._pressBack.bind(this)}>
       </TitleBar>
 
        </View>

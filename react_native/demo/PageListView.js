@@ -15,6 +15,7 @@ import {
   BackAndroid,
   NativeModules,
   TouchableOpacity,
+  ActivityIndicator,
   View
 } from 'react-native';
 
@@ -23,6 +24,7 @@ import TitleBar from './TitleBar';
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 var Log = NativeModules.LogNative;
 var TAG ="=====page list view === ";
+// import
 
 export default class PageListView extends Component {
   constructor(props) {
