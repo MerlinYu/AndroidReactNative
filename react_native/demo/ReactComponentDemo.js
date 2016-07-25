@@ -17,7 +17,8 @@ import {
 } from 'react-native';
 
 var TAG = "===main scene === ";
-export default class MainScene extends  Component {
+
+export default class ReactComponentDemo extends  Component {
   constructor(props) {
     super(props);
     this.state = {

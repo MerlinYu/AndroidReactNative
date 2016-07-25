@@ -15,7 +15,7 @@ import {
   BackAndroid,
   NativeModules,
   TouchableOpacity,
-  ActivityIndicator,
+  RecyclerViewBackedScrollView,
   View
 } from 'react-native';
 
@@ -24,6 +24,7 @@ import TitleBar from './TitleBar';
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 var Log = NativeModules.LogNative;
 var TAG ="=====page list view === ";
+
 // import
 
 export default class PageListView extends Component {
@@ -47,14 +48,14 @@ export default class PageListView extends Component {
     var isOnScene = this.state.isOnScene;
 
     //返回键监听，需优化
-    BackAndroid.addEventListener('hardwareBackPress', function() {
-      Log.v(TAG + " back is on scene" + isOnScene);
-          if (navigator && navigator.getCurrentRoutes().length > 1) {
-            navigator.pop();
-            return true;
-          }
-          return false;
-      });
+    // BackAndroid.addEventListener('hardwareBackPress', function() {
+    //   Log.v(TAG + " back is on scene" + isOnScene);
+    //       if (navigator && navigator.getCurrentRoutes().length > 1) {
+    //         navigator.pop();
+    //         return true;
+    //       }
+    //       return false;
+    //   });
     this.fetchData();
   }
 
@@ -88,6 +89,16 @@ export default class PageListView extends Component {
         <ListView
         dataSource = {this.state.dataSource}
         renderRow={this.renderMovie}
+        initialListSize={10}
+        // 数据间隔line
+        renderSeparator={this._renderSeparator}
+        //底部footer
+        renderFooter={() => <View style={styles.separator} height = {40}/>}
+        // sectionID 由ListView.DataSource默认解析返回
+        renderSectionHeader = {(sectionData,sectionId) =>{
+          console.log(TAG + JSON.stringify(sectionData));
+          return <Text>{sectionId}</Text>
+        }}
         style={styles.list_container}/>
       </View>
     );
@@ -115,7 +126,8 @@ export default class PageListView extends Component {
   }
 
 
-  renderMovie(movie) {
+  renderMovie(movie,sectionId,rowId) {
+    console.log(TAG + "sectionId,rowId  " + sectionId + " , " + rowId);
     return (
       <View style={styles.container}>
         <Image
@@ -132,6 +144,15 @@ export default class PageListView extends Component {
       </View>
     );
   }
+
+ _renderSeparator(sectionId,rowId) {
+  //  console.log(TAG + "_renderSeparator  " + sectionId + ", " + rowId);
+   return(
+     <View key={`${sectionId}-${rowId}`} style={styles.separator}>
+     </View>
+   );
+
+ }
 }
 
 
@@ -190,6 +211,10 @@ const styles = StyleSheet.create({
     marginTop:20,
     marginLeft:20,
     marginRight:20,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
   },
 });
 

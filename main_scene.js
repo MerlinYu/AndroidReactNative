@@ -11,12 +11,10 @@ import {
   Animated,
   Image,
   ToastAndroid,
-  ActivityIndicator,
   View
 } from 'react-native';
-import RnDemo from './react_native/demo/index';
 var Log = NativeModules.LogNative;
-import LoadView from './test';
+import RnDemo from './react_native/demo/index';
 
 var TAG = "===main scene === ";
 export default class MainScene extends  Component {
@@ -143,26 +141,26 @@ export default class MainScene extends  Component {
     if(nav) {
       this.state.isOnScene = false;
       Log.v(TAG + " is onscene " + this.state.isOnScene);
-
+      nav.push(
+        {
+          component:RnDemo,
+          params:{
+            title:'React World',
+            callback:function(data) {
+              ToastAndroid.show('back data' + JSON.stringify(data),
+              ToastAndroid.LONG);
+            }
+          }
+        });
       // nav.push(
       //   {
-      //     component:RnDemo,
+      //     component:PageScrollView,
       //     params:{
       //       title:'React World',
-      //       callback:function(data) {
-      //         ToastAndroid.show('back data' + JSON.stringify(data),
-      //         ToastAndroid.LONG);
-      //       }
+      //       text:'hello'
       //     }
       //   });
 
-      nav.push(
-        {
-          component:LoadView,
-          params:{
-            title:'React World',
-          }
-        });
     }
   }
 }
